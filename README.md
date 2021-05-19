@@ -4,20 +4,17 @@
 ## users　テーブル
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
-| nick_name             | string | null: false |　　#memo null: false　→　ないと困るよー
-| email                 | string | null: false |
-| user_password         | string | null: false |
+| nick_name             | string | null: false |　　
+| email                 | string | unique: true|
+| encrypted_password    | string | null: false |
 | family_name           | string | null: false |
 | first_name            | string | null: false |
 | family_name_japanese  | string | null: false |
 | first_name_japanese   | string | null: false |
 | birth_day             | date   | null: false |
-| phone_number          | string |             |
 
 Association
-・has_many :items dependent: :destroy
-・belongs_to :users(購入者) dependent: :destroy
-・belongs_to :credit_card dependent: :destroy
+・has_many : items
 
 
 
@@ -31,24 +28,28 @@ Association
 | first_name            | string | null: false |
 | family_name_japanese  | string | null: false |
 | first_name_japanese   | string | null: false |
-| phone_number          | string |             |
+| post_code　　　　　　   | string | null: false |
+| prefecture　　　　　　  | string | null: false |
+| city　　　　　　  　　　 | string | null: false |
+| address　　　　　　     | string | null: false |
+| building_name　　　　  | string | |
+| phone_number　　　　   | string | null: false |
 
 Association
-・belongs_to :user
+・belongs_to :items
+・belongs_to :purchase
 
 
-
-
-
-## credit_cards テーブル
+## purchase テーブル
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
 | user_id               | integer| null: false, foreign_key: true|
-| credit_cards_id       | string | null: false |
-| phone_number          | string | null: false |
+| item_id               | string | null: false, foreign_key: true|
+
 
 Association
-・belongs_to :user
+・belongs_to :buyers
+
 
 
 
@@ -56,32 +57,17 @@ Association
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
 | name                  | string | null: false |
-| price                 | string | null: false |
-| item_categories_id    | integer| null: false, foreign_key: true|
+| price                 | integer| null: false |
 | user_id               | integer| null: false, foreign_key: true|
+| Category              | string | null: false |
+| description           | string | null: false |
+| item_condition        | string | null: false |
+| shipping_cost         | string | null: false |
+| shipping_days         | string | null: false |
 
 Association
-・belongs_to :user dependent: :destroy
-・belongs_to :items_categories  dependent: :destroy
-・has_many :images dependent: :destroy
+・belongs_to :buyers
 
 
 
-## Items_categories テーブル
-| Column                | Type   | Options     |
-| ------------------    | ------ | ----------- |
-| name                  | string | null: false |
 
-Association
-・has_many :items
-
-
-
-## Image テーブル
-| Column                | Type   | Options     |
-| ------------------    | ------ | ----------- |
-| image                 | string | null: false |
-| item_id               | integer| null: false, foreign_key: true|
-
-Association
-・belongs_to :items
