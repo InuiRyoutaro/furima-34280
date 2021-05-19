@@ -5,7 +5,7 @@
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
 | nick_name             | string | null: false |　　
-| email                 | string | unique: true|
+| email                 | string | null: false, unique: true|
 | encrypted_password    | string | null: false |
 | family_name           | string | null: false |
 | first_name            | string | null: false |
@@ -15,8 +15,7 @@
 
 Association
 ・has_many : items
-
-
+・belongs_to :purchase
 
 
 
@@ -26,10 +25,8 @@ Association
 | user_id               | text   | null: false, foreign_key: true|
 | family_name           | string | null: false |
 | first_name            | string | null: false |
-| family_name_japanese  | string | null: false |
-| first_name_japanese   | string | null: false |
 | post_code　　　　　　   | string | null: false |
-| prefecture　　　　　　  | string | null: false |
+| prefecture_id　　　　  | integer| null: false |
 | city　　　　　　  　　　 | string | null: false |
 | address　　　　　　     | string | null: false |
 | building_name　　　　  | string | |
@@ -44,13 +41,13 @@ Association
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
 | user_id               | integer| null: false, foreign_key: true|
-| item_id               | string | null: false, foreign_key: true|
+| item_id               | integer| null: false, foreign_key: true|
 
 
 Association
 ・belongs_to :buyers
-
-
+・belongs_to :items
+・belongs_to :users
 
 
 ## items テーブル
@@ -59,15 +56,16 @@ Association
 | name                  | string | null: false |
 | price                 | integer| null: false |
 | user_id               | integer| null: false, foreign_key: true|
-| Category              | string | null: false |
-| description           | string | null: false |
-| item_condition        | string | null: false |
-| shipping_cost         | string | null: false |
-| shipping_days         | string | null: false |
+| category_id           | string | null: false |
+| description_id        | string | null: false |
+| item_condition_id     | string | null: false |
+| shipping_cost_id      | string | null: false |
+| shipping_day _id      | string | null: false |
 
 Association
 ・belongs_to :buyers
-
+・belongs_to :users
+・belongs_to :purchase
 
 
 
