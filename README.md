@@ -15,7 +15,7 @@
 
 Association
 ・has_many : items
-・belongs_to :purchase
+・has_many :purchase
 
 
 
@@ -30,7 +30,6 @@ Association
 | phone_number　　　　   | string | null: false |
 
 Association
-・belongs_to :items
 ・belongs_to :purchase
 
 
@@ -43,8 +42,8 @@ Association
 
 Association
 ・belongs_to :buyers
-・belongs_to :items
-・belongs_to :users
+・has_one :item
+・belongs_to :user
 
 
 ## items テーブル
@@ -55,15 +54,14 @@ Association
 | user_id               | integer| null: false, foreign_key: true|
 | prefecture_id　　　　  | integer| null: false |
 | category_id           | integer| null: false |
-| description           | integer| null: false |
+| description           | text   | null: false |
 | item_condition_id     | integer| null: false |
 | shipping_cost_id      | integer| null: false |
 | shipping_day _id      | integer| null: false |
 
 Association
-・belongs_to :buyers
-・belongs_to :users
-・belongs_to :purchase
+・belongs_to :user
+・has_one :purchase
 
 
 
