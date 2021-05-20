@@ -22,9 +22,6 @@ Association
 ## buyers　テーブル
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
-| user_id               | text   | null: false, foreign_key: true|
-| family_name           | string | null: false |
-| first_name            | string | null: false |
 | post_code　　　　　　   | string | null: false |
 | prefecture_id　　　　  | integer| null: false |
 | city　　　　　　  　　　 | string | null: false |
@@ -56,11 +53,12 @@ Association
 | name                  | string | null: false |
 | price                 | integer| null: false |
 | user_id               | integer| null: false, foreign_key: true|
-| category_id           | string | null: false |
-| description_id        | string | null: false |
-| item_condition_id     | string | null: false |
-| shipping_cost_id      | string | null: false |
-| shipping_day _id      | string | null: false |
+| prefecture_id　　　　  | integer| null: false |
+| category_id           | integer| null: false |
+| description           | integer| null: false |
+| item_condition_id     | integer| null: false |
+| shipping_cost_id      | integer| null: false |
+| shipping_day _id      | integer| null: false |
 
 Association
 ・belongs_to :buyers
