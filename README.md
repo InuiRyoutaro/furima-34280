@@ -15,7 +15,7 @@
 
 Association
 ・has_many : items
-・has_many :purchase
+・has_many :purchases
 
 
 
@@ -28,6 +28,8 @@ Association
 | address　　　　　　     | string | null: false |
 | building_name　　　　  | string | |
 | phone_number　　　　   | string | null: false |
+| purchase_id          | integer | null: false, foreign_key: true|
+
 
 Association
 ・belongs_to :purchase
@@ -36,13 +38,13 @@ Association
 ## purchase テーブル
 | Column                | Type   | Options     |
 | ------------------    | ------ | ----------- |
-| user_id               | integer| null: false, foreign_key: true|
-| item_id               | integer| null: false, foreign_key: true|
+| user                  | references| null: false, foreign_key: true|
+| item                  | references| null: false, foreign_key: true|
 
 
 Association
-・belongs_to :buyers
-・has_one :item
+・has_one:buyer
+・belongs_to :item
 ・belongs_to :user
 
 
@@ -51,7 +53,7 @@ Association
 | ------------------    | ------ | ----------- |
 | name                  | string | null: false |
 | price                 | integer| null: false |
-| user_id               | integer| null: false, foreign_key: true|
+| user                  | references| null: false, foreign_key: true|
 | prefecture_id　　　　  | integer| null: false |
 | category_id           | integer| null: false |
 | description           | text   | null: false |
