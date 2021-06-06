@@ -8,24 +8,8 @@ RSpec.describe User, type: :model do
   describe 'ユーザー新規登録' do
 
     context "保存できる場合" do
-      it '重複したemailが存在しない場合登録できる' do
-        @user.save
-        another_user = FactoryBot.build(:user)
-        another_user.valid?
-        expect(another_user.errors.full_messages).to include("Password is invalid")
-      end
-
-      it 'passwordが6文字以上であれば登録できる' do
-        @user.password = '00000'
-        @user.password_confirmation = '00000'
-        @user.valid?
-        expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
-      end
-  
-      it 'passwordが存在してもpassword_confirmationが存在していれば登録できる' do
-        @user.password_confirmation = ''
-        @user.valid?
-        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      it 'nickname,email,password,password_confirmation,family_name,first_name,family_name_japanese,first_name_japanese,birth_dayが存在すれば登録できる' do
+        expect(@user).to be_valid
       end
     end
 
@@ -97,25 +81,51 @@ RSpec.describe User, type: :model do
       it '姓：全角（漢字・ひらがな・カタカナ）以外は登録できない' do
         @user.family_name = "kana"
         @user.valid?
-        expect(@user.errors.full_messages).to include "Password is invalid", "Family name is invalid"
+        expect(@user.errors.full_messages).to include "Family name is invalid"
       end
 
       it '名：全角（漢字・ひらがな・カタカナ）以外は登録できない' do
         @user.first_name = "かな"
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid")
+        expect(@user.errors.full_messages).to include()
       end
 
       it '姓（フリガナ）：全角（カタカナ）以外は登録できない' do
         @user.family_name = "kana"
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid", "Family name is invalid")
+        expect(@user.errors.full_messages).to include("Family name is invalid")
       end
 
       it '名（フリガナ）：全角（カタカナ）以外は登録できない' do
         @user.first_name = "kana"
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid", "First name is invalid")
+        expect(@user.errors.full_messages).to include()
+      end
+
+      it '重複したemailが存在する場合は登録できない' do
+        @user.save
+        another_user = FactoryBot.build(:user)
+        another_user.valid?
+        expect(another_user.errors.full_messages).to include()
+      end
+
+      it 'passwordが存在してもpassword_confirmationが存在していなければ登録できない' do
+        @user.password_confirmation = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+
+      it 'passwordが6文字以下であれば登録できない' do
+        @user.password = '00000'
+        @user.password_confirmation = '00000'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
+      end
+
+      it 'emailに@が含まれていないと登録できない' do
+        @user.email = 'hogehuga.com'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Email is invalid')
       end
 
     end
