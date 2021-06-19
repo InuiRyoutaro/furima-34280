@@ -35,9 +35,15 @@ RSpec.describe Item, type: :model do
       it 'priceが300円以下では登録できないこと' do
         @item.price = '299'
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include("Price is not included in the list")
       end
 
+      it 'priceが¥300~¥9,999,999の間以外は保存できない' do
+        @item.price = '300~9999999'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
+      
       it 'priceが全角数字は登録できない' do
         @item.price = "１１１１"
         @item.valid?
