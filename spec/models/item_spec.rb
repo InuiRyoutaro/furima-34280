@@ -74,7 +74,7 @@ RSpec.describe Item, type: :model do
       end
 
       it 'descriptionが空では登録できないこと' do
-        @item.description = nil
+        @item.description = ""
         @item.valid?
         expect(@item.errors.full_messages)
       end
@@ -92,7 +92,7 @@ RSpec.describe Item, type: :model do
       end
 
       it '価格が10,000,000以上では登録できないこと' do
-        @item.price = "10,000,000"
+        @item.price = 10,000,000
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not included in the list')
       end
