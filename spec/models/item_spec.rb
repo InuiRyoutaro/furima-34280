@@ -14,7 +14,7 @@ RSpec.describe Item, type: :model do
     end
 
     context "保存できない場合" do
-    it 'imageが空だと出品できない' do
+    it 'imageが空ではときは保存できない' do
         @item.image = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Image can't be blank")
@@ -29,7 +29,7 @@ RSpec.describe Item, type: :model do
       it 'priceが空では登録できないこと' do
         @item.price = nil
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include("Price is not included in the list")
       end
 
       it 'priceが300円以下では登録できないこと' do
@@ -43,16 +43,34 @@ RSpec.describe Item, type: :model do
         @item.valid?
       end
 
-      it 'prefectureが空では登録できないこと' do
-        @item.prefecture = nil
+      it 'prefectureで”--”が選択されているときは保存できないことでは登録できないこと' do
+        @item.prefecture_id = 1
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
       end
 
-      it 'categoryが空では登録できないこと' do
-        @item.category = nil
+      it 'categoryで”--”が選択されているときは保存できないことでは登録できないこと' do
+        @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
+
+      it 'item_conditionで”--”が選択されているときは保存できないことでは登録できないこと' do
+        @item.item_condition_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
+
+      it 'shipping_costで”--”が選択されているときは保存できないことでは登録できないこと' do
+        @item.shipping_cost_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
+
+      it 'shipping_dayで”--”が選択されているときは保存できないことでは登録できないこと' do
+        @item.shipping_day_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
       end
 
       it 'descriptionが空では登録できないこと' do
@@ -61,23 +79,24 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages)
       end
 
-      it 'item_conditionが空では登録できないこと' do
-        @item.item_condition_id = ""
+      it '価格が半角英数混合では登録できないこと' do
+        @item.price = "aa111aa"
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include("Price is not included in the list")
       end
 
-      it 'shipping_costが空では登録できないこと' do
-        @item.shipping_cost = nil
+      it '価格が半角英語だけでは登録できないこと' do
+        @item.price = "aaaaaa"
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include("Price is not included in the list")
       end
 
-      it 'shipping_dayが空では登録できないこと' do
-        @item.shipping_day = nil
+      it '価格が10,000,000以上では登録できないこと' do
+        @item.price = "10,000,000"
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include('Price is not included in the list')
       end
+
     end
   end
 end
