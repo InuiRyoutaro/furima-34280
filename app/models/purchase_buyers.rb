@@ -21,7 +21,7 @@ class PurchaseBuyers
     # 住所を保存する
     # donation_idには、変数donationのidと指定する
     # Address.create(postal_code: postal_code, prefecture: prefecture, city: city, adress: , building_name: building_name, donation_id: donation.id)
-    Buyers.create(post_code: post_code, prefecture_id: prefecture_id, city: city, adress: adress, building_name: building_name, phone_number: phone_number, purchase: purchase,)
+    Buyer.create(post_code: post_code, prefecture_id: prefecture_id, city: city, adress: adress, building_name: building_name, phone_number: phone_number, purchase: purchase,)
   end
 
 
