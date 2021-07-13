@@ -1,17 +1,15 @@
 class PurchasesController < ApplicationController
-  before_action :authenticate_user!, only: :index
-  before_action :set_item 
-  before_action :move_to_index, only: [:index]
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :set_item, only: [:index, :create]
+  before_action :move_to_index, only: [:index, :create]
 
  
 
   def index
     @purchase_buyer = PurchaseBuyer.new
-    @item = Item.find(params[:item_id])
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_buyer = PurchaseBuyer.new(buyers_params)
     if @purchase_buyer.valid?
       pay_item
@@ -21,8 +19,6 @@ class PurchasesController < ApplicationController
       render :index
     end
   end
-
-  private
 
   def buyers_params
     params.require(:purchase_buyer).permit(:post_code, :prefecture_id, :city, :address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
@@ -38,13 +34,13 @@ class PurchasesController < ApplicationController
   end
 
   private
-  
+
   def set_item
     @item = Item.find(params[:item_id])
   end
 
   def move_to_index
-    if item.purchase.present? || current_user == @item.user
+    if @item.purchase.present? || current_user == @item.user
       redirect_to root_path
     end
   end

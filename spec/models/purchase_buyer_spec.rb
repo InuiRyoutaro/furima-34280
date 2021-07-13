@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe PurchaseBuyer, type: :model do
   
   before do
-    @user = FactoryBot.build(:user)
-    @item = FactoryBot.build(:item)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    sleep 0.1
     @purchase_buyer = FactoryBot.build(:purchase_buyer, user_id: @user.id , item_id: @item.id)
   end
 
@@ -12,12 +13,12 @@ RSpec.describe PurchaseBuyer, type: :model do
 
     context "購入できる場合" do
       it 'post_code,prefecture_id,city,adress,building_name,phone_number,user_id,item_id,tokenが存在すれば登録できる' do
-        expect(@purchase_buyer)
+        expect(@purchase_buyer).to be_valid
       end
 
       it 'building_nameが空でも購入できる'do
       @purchase_buyer.building_name = ""
-      expect(@purchase_buyer)
+      expect(@purchase_buyer).to be_valid
       end
 
     end
@@ -87,6 +88,12 @@ RSpec.describe PurchaseBuyer, type: :model do
         @purchase_buyer.token = ""
         @purchase_buyer.valid?
         expect(@purchase_buyer.errors.full_messages).to include("Token can't be blank")
+      end
+
+      it 'prefectureで”--”が選択されているときは保存できないことでは登録できないこと' do
+        @purchase_buyer.prefecture_id = 1
+        @purchase_buyer.valid?
+        expect(@purchase_buyer.errors.full_messages).to include("Prefecture must be other than 1")
       end
     end
   end
