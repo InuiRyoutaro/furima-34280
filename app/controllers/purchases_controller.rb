@@ -1,5 +1,8 @@
 class PurchasesController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!, only: :index
+  before_action :move_to_index, only: [:index]
+  before_action :move_index, only: [:index]
+
 
   def index
     @purchase_buyer = PurchaseBuyer.new
@@ -32,6 +35,23 @@ class PurchasesController < ApplicationController
       currency: 'jpy'
     )
   end
+
+  private
+
+  def move_to_index
+    @item = Item.find(params[:item_id])
+    if current_user == @item.user
+      redirect_to root_path
+    end
+  end
+
+  def move_index
+    @item = Item.find(params[:item_id])
+    if item.purchase.present?
+      redirect_to root_path
+    end
+  end
+
 
 
 end
