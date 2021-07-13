@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe PurchaseBuyer, type: :model do
+  
   before do
-    @purchase_buyer = FactoryBot.build(:purchase_buyer)
+    @user = FactoryBot.build(:user)
+    @item = FactoryBot.build(:item)
+    @purchase_buyer = FactoryBot.build(:purchase_buyer, user_id: @user.id , item_id: @item.id)
   end
 
   describe '商品購入機能' do
@@ -11,6 +14,12 @@ RSpec.describe PurchaseBuyer, type: :model do
       it 'post_code,prefecture_id,city,adress,building_name,phone_number,user_id,item_id,tokenが存在すれば登録できる' do
         expect(@purchase_buyer)
       end
+
+      it 'building_nameが空でも購入できる'do
+      @purchase_buyer.building_name = ""
+      expect(@purchase_buyer)
+      end
+
     end
 
     context "購入できない場合" do
@@ -36,6 +45,18 @@ RSpec.describe PurchaseBuyer, type: :model do
         @purchase_buyer.phone_number = ""
         @purchase_buyer.valid?
         expect(@purchase_buyer.errors.full_messages).to include("Phone number can't be blank")
+      end
+
+      it 'phone_numberが12桁以上では購入できないこと' do
+        @purchase_buyer.phone_number = "090123456789"
+        @purchase_buyer.valid?
+        expect(@purchase_buyer.errors.full_messages).to include("Phone number is invalid")
+      end
+
+      it 'phone_numberが英数混合では購入できないこと' do
+        @purchase_buyer.phone_number = "0901234gt56"
+        @purchase_buyer.valid?
+        expect(@purchase_buyer.errors.full_messages).to include("Phone number is invalid")
       end
 
       it 'post_codeが空では購入できないこと' do
@@ -67,7 +88,6 @@ RSpec.describe PurchaseBuyer, type: :model do
         @purchase_buyer.valid?
         expect(@purchase_buyer.errors.full_messages).to include("Token can't be blank")
       end
-
     end
   end
 end
