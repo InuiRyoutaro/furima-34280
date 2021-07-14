@@ -1,7 +1,6 @@
 class PurchaseBuyer
   include ActiveModel::Model
-  attr_accessor :token
-  attr_accessor :post_code, :prefecture_id, :city, :address, :building_name, :phone_number, :user_id, :item_id
+  attr_accessor :post_code, :prefecture_id, :city, :address, :building_name, :phone_number, :user_id, :item_id, :token
 
   with_options presence: true do
     validates :prefecture_id, numericality: { other_than: 1 }
