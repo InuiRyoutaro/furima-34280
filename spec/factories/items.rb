@@ -3,8 +3,8 @@ FactoryBot.define do
     name {"Monster"}
     price  {1000}
     description {"ナイキ"}
-    prefecture_id {1}
-    category_id {1}
+    prefecture_id {2}
+    category_id {2}
     item_condition_id {2}
     shipping_cost_id {2}
     shipping_day_id {2}
